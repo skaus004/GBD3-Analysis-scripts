@@ -4,7 +4,6 @@
 
 import sys
 import numpy as np
-import linecache
 
 outf = sys.argv[3]
 info = open(outf,"w")
@@ -45,17 +44,7 @@ z140=0
 z160=0
 z180=0
 z200=0
-Az0=np.array([])
-Az20=np.array([])
-Az40=np.array([])
-Az60=np.array([])
-Az80=np.array([])
-Az100=np.array([])
-Az120=np.array([])
-Az140=np.array([])
-Az160=np.array([])
-Az180=np.array([])
-Az200=np.array([])
+
 
 for row in z_coord:
     for cell in row:
@@ -86,7 +75,6 @@ for row in z_coord:
             if z<200 and z>180:
                 z200=z200+1
 
-
 print ("g0="+str(z0/((100*0.068182)*frames)))
 print ("g20="+str(z20/((100*0.068182)*frames)))
 print ("g40="+str(z40/((100*0.068182)*frames)))
@@ -98,44 +86,5 @@ print ("g140="+str(z140/((100*0.068182)*frames)))
 print ("g160="+str(z160/((100*0.068182)*frames)))
 print ("g180="+str(z180/((100*0.068182)*frames)))
 print ("g200="+str(z200/((100*0.068182)*frames)))
-
-'''
-    totalz=z0+z20+z40+z60+z80+z100+z120+z140+z160+z180+z200
-    pz0=(z0*100)/totalz
-    pz20=(z20*100)/totalz
-    pz40=(z40*100)/totalz
-    pz60=(z60*100)/totalz
-    pz80=(z80*100)/totalz
-    pz100=(z100*100)/totalz
-    pz120=(z120*100)/totalz
-    pz140=(z140*100)/totalz
-    pz160=(z160*100)/totalz
-    pz180=(z180*100)/totalz
-    pz200=(z200*100)/totalz
-
-    Az0=np.append(Az0,pz0)
-    Az20=np.append(Az20,pz20)
-    Az40=np.append(Az40,pz40)
-    Az60=np.append(Az60,pz60)
-    Az80=np.append(Az80,pz80)
-    Az100=np.append(Az100,pz100)
-    Az120=np.append(Az120,pz120)
-    Az140=np.append(Az140,pz140)
-    Az160=np.append(Az160,pz160)
-    Az180=np.append(Az180,pz180)
-    Az200=np.append(Az200,pz200)
-
-print("z<0   ---> mean="+str(np.mean(Az0))+", sd = "+str(((np.std(Az0))*100)/(np.mean(Az0))))
-print("z<20  ---> mean="+str(np.mean(Az20))+", sd = "+str(((np.std(Az20))*100)/(np.mean(Az20))))
-print("z<40  ---> mean="+str(np.mean(Az40))+", sd = "+str(((np.std(Az40))*100)/(np.mean(Az40))))
-print("z<60  ---> mean="+str(np.mean(Az60))+", sd = "+str(((np.std(Az60))*100)/(np.mean(Az60))))
-print("z<80  ---> mean="+str(np.mean(Az80))+", sd = "+str(((np.std(Az80))*100)/(np.mean(Az80))))
-print("z<100 ---> mean="+str(np.mean(Az100))+", sd = "+str(((np.std(Az100))*100)/(np.mean(Az100))))
-print("z<120 ---> mean="+str(np.mean(Az120))+", sd = "+str(((np.std(Az120))*100)/(np.mean(Az120))))
-print("z<140 ---> mean="+str(np.mean(Az140))+", sd = "+str(((np.std(Az140))*100)/(np.mean(Az140))))
-print("z<160 ---> mean="+str(np.mean(Az160))+", sd = "+str(((np.std(Az160))*100)/(np.mean(Az160))))
-print("z<180 ---> mean="+str(np.mean(Az180))+", sd = "+str(((np.std(Az180))*100)/(np.mean(Az180))))
-print("z<200 ---> mean="+str(np.mean(Az200))+", sd = "+str(((np.std(Az200))*100)/(np.mean(Az200))))
-'''
 
 
