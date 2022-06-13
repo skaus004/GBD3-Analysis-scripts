@@ -1,4 +1,4 @@
-<h1> GBD3 Analysis Scripts</h1>
+# GBD3 Analysis Scripts
 ### 3d_quarter_distribution.py
 calculate distribution of ligand in each spherical quarter around the enzyme while leaving the active site
 ### Rgr_Diff.py                 
