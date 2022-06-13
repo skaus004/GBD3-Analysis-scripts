@@ -1,5 +1,6 @@
 # GBD3 Analysis Scripts
-3d_quarter_distribution.py  | (calculate distribution of ligand in each spherical quarter around the enzyme while leaving the active site)
+#### 3d_quarter_distribution.py
+<br>(calculate distribution of ligand in each spherical quarter around the enzyme while leaving the active site)
 Rgr_Diff.py                 | (calculate radius of gyration and theoretical diffusion coefficient )
 <br>
 count_termination_dcd.py    | (calculate total number of bindings, dwell time and direct binders considering limits as a sphere for direct binders. Use dcds as input. Need dcd.py to be in the same folder to run this script.)
