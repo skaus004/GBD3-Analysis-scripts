@@ -4,77 +4,77 @@ import sys
 import math
 
 if len(sys.argv)<2:
-    print("Usage --> python count_termination_dcd.py <input dcd> <index of center of mass of ligand> <no of replicas> <dinstance between initial and binding sites in Angstrom> <x-coordinate of direct binding sphere> <y...> <z...> <direct binding sphere radius> <x-coordinate of dwelling sphere> <y...> <z...> <dwell sphere radius>")
+	print("Usage --> python count_termination_dcd.py <input dcd> <index of center of mass of ligand> <no of replicas> <dinstance between initial and binding sites in Angstrom> <x-coordinate of direct binding sphere> <y...> <z...> <direct binding sphere radius> <x-coordinate of dwelling sphere> <y...> <z...> <dwell sphere radius>")
 
 if len(sys.argv)==13:
-    input_dcd = sys.argv[1]
-    com_index =int(sys.argv[2])
-    n_replicas = int(sys.argv[3])
-    binding_jump = int(float(sys.argv[4]))
-    c1 = int(float(sys.argv[5]))
-    c2 = int(float(sys.argv[6]))
-    c3 = int(float(sys.argv[7]))
-    direct_cut_off=  int(float(sys.argv[8]))
-    d1 = int(float(sys.argv[9]))
-    d2 = int(float(sys.argv[10]))
-    d3 = int(float(sys.argv[11]))
-    dwell_cut_off = int(float(sys.argv[12]))
-
-    print ("Center of mass index     = "+str(com_index))
-    print ("no. of replicas          = "+ str(n_replicas))
-    cc,co=dcd.read_dcd_data_ref(input_dcd)  #co are the cordinates in numpy array [frames, atoms, xyz]==[axis0, axis1, axis2]
-    n_atm_per_res=int(int(np.size(co, 1))/n_replicas)
-
-    print ("no. of atoms per residue = "+ str(n_atm_per_res))
-    print ("no. of frames            = "+str(np.size(co,0)))
-    print ("     ")
-    print (np.shape(co))
-
-    co=co[:, com_index:-1:n_atm_per_res, :]  # [frames, com_atom, xyz] == [axis0, axis1, axis2]
-    print (np.shape(co))
+	input_dcd = sys.argv[1]
+	com_index =int(sys.argv[2])
+	n_replicas = int(sys.argv[3])
+	binding_jump = int(float(sys.argv[4]))
+	c1 = int(float(sys.argv[5]))
+	c2 = int(float(sys.argv[6]))
+	c3 = int(float(sys.argv[7]))
+	direct_cut_off=  int(float(sys.argv[8]))
+	d1 = int(float(sys.argv[9]))
+	d2 = int(float(sys.argv[10]))
+	d3 = int(float(sys.argv[11]))
+	dwell_cut_off = int(float(sys.argv[12]))
+	
+	print ("Center of mass index     = "+str(com_index))
+	print ("no. of replicas          = "+ str(n_replicas))
+	cc,co=dcd.read_dcd_data_ref(input_dcd)  #co are the cordinates in numpy array [frames, atoms, xyz]==[axis0, axis1, axis2]
+	n_atm_per_res=int(int(np.size(co, 1))/n_replicas)
+	
+	print ("no. of atoms per residue = "+ str(n_atm_per_res))
+	print ("no. of frames            = "+str(np.size(co,0)))
+	print ("     ")
+	print (np.shape(co))
+	
+	co=co[:, com_index:-1:n_atm_per_res, :]  # [frames, com_atom, xyz] == [axis0, axis1, axis2]
+	print (np.shape(co))
 
 	####calculating r2-r1 for each step in simulation
-
-    co_1 = np.delete(co,0, axis=0) #deleting first row in co means deleting first frame
-    co_2 = np.delete(co,-1, axis=0) #deleting last row in co means deleting last frame
-
-    co1_co2=np.subtract(co_1,co_2)
-    co1_co2_sq=np.power(co1_co2,2)
-    r1_r2_sq=np.sum(co1_co2_sq, axis=2)
-    r1_r2=np.power(r1_r2_sq,0.5)
-    r1_r2=r1_r2.astype('int') 
-    r1_r2_sq=r1_r2_sq.astype('int')
+	
+	co_1 = np.delete(co,0, axis=0) #deleting first row in co means deleting first frame
+	co_2 = np.delete(co,-1, axis=0) #deleting last row in co means deleting last frame
+	
+	co1_co2=np.subtract(co_1,co_2)
+	co1_co2_sq=np.power(co1_co2,2)
+	r1_r2_sq=np.sum(co1_co2_sq, axis=2)
+	r1_r2=np.power(r1_r2_sq,0.5)
+	r1_r2=r1_r2.astype('int')
+	r1_r2_sq=r1_r2_sq.astype('int')
 
 	####calculating r for each step in simulation
-
-    co_sq=np.power(co,2)   #x^2, y^2, z^2
-    r2=np.sum(co_sq, axis=2)  #r2=(x*x + y*y + z*z)
-    r=np.power(r2,0.5)  # data of r in form of [frames, com_atom]
-    r=r.astype('int')
-    all_co_r=np.dstack((co, r))  # [frames, com_atom, x y z r] == [axis0, axis1, axis2]
-    all_co_r1_r2_sq=np.dstack((co_1,r1_r2_sq))
- 
-    binding_jump_sq=binding_jump*binding_jump
-    N_termination = r1_r2_sq[r1_r2_sq>binding_jump_sq]
-    total_binds = int(np.size(N_termination))
+	
+	co_sq=np.power(co,2)   #x^2, y^2, z^2
+	r2=np.sum(co_sq, axis=2)  #r2=(x*x + y*y + z*z)
+	r=np.power(r2,0.5)  # data of r in form of [frames, com_atom]
+	r=r.astype('int')
+	all_co_r=np.dstack((co, r))  # [frames, com_atom, x y z r] == [axis0, axis1, axis2]
+	all_co_r1_r2_sq=np.dstack((co_1,r1_r2_sq))
+	
+	binding_jump_sq=binding_jump*binding_jump
+	N_termination = r1_r2_sq[r1_r2_sq>binding_jump_sq]
+	total_binds = int(np.size(N_termination))
 
 	####direct bindings
-    b=0
-    n_slicing=np.array([])
-    m_slicing=np.array([])
-    n_frames = int(np.size(co,0))-1
-    for m in range(0,n_replicas):
-        n in range(0,n_frames):
-            if all_co_r1_r2_sq[n][m][3]>binding_jump_sq:
+	b=0
+	n_slicing=np.array([])
+	m_slicing=np.array([])
+	n_frames = int(np.size(co,0))-1
+	for m in range(0,n_replicas):
+		n in range(0,n_frames):
+			if all_co_r1_r2_sq[n][m][3]>binding_jump_sq:
 				n_slicing=np.append(n_slicing,n)
 				m_slicing=np.append(m_slicing,m)
 
 	slicing=np.vstack((n_slicing,m_slicing))   # 2d array having info about which replicas binds at which frame [2 rows: 1st row is frame number and 2nd row is replica number ] 
 	for p in range(0,np.size(slicing,1)):
 		if p==0:
-            f2=int(slicing[0][p])
-            rep_no=int(slicing[1][p])
-            temp=all_co_r1_r2_sq[:f2,rep_no,:]
+			f2=int(slicing[0][p])
+			rep_no=int(slicing[1][p])
+			temp=all_co_r1_r2_sq[:f2,rep_no,:]
 		if slicing[1][p]==slicing[1][p-1]:
 			f1=int(slicing[0][p-1])
 			f2=int(slicing[0][p])
